@@ -58,7 +58,7 @@ fun Greeting(name: String) {
                 .weight(1f)
                 .padding(bottom = extraPadding.coerceAtLeast(0.dp))) {
                 Text(text = "Hello,")
-                Text(text = name)
+                Text(text = name, style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.ExtraBold))
             }
 
             ElevatedButton(
@@ -112,7 +112,12 @@ fun MyAppPreview() {
     }
 }
 
-
+@Preview(
+    showBackground = true,
+    widthDp = 320,
+    uiMode = UI_MODE_NIGHT_YES,
+    name = "Dark"
+)
 @Preview(showBackground = true, widthDp = 320)
 @Composable
 fun GreetingsPreview() {
