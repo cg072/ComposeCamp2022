@@ -7,14 +7,24 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -52,19 +62,43 @@ fun Greeting(name: String) {
         )
     )
 
-    Surface(color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)) {
-        Row(modifier = Modifier.padding(24.dp)) {
-            Column(modifier = Modifier
-                .weight(1f)
-                .padding(bottom = extraPadding.coerceAtLeast(0.dp))) {
+    Surface(color = MaterialTheme.colorScheme.primary, modifier = Modifier
+        .padding(vertical = 4.dp, horizontal = 8.dp)
+        .clip(RoundedCornerShape(8.dp))) {
+        Row(modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom =
+        if (expanded) 0.dp else 24.dp)) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(bottom = extraPadding.coerceAtLeast(0.dp))
+            ) {
                 Text(text = "Hello,")
-                Text(text = name, style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.ExtraBold))
+                Text(
+                    text = name,
+                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.ExtraBold)
+                )
+
+                if (expanded) Text(text = "Composem ipsum color sit lazy, padding theme elit, sed do bouncy. ".repeat(4))
             }
 
-            ElevatedButton(
-                onClick = { expanded = !expanded }
-            ) {
-                Text(if (expanded) "Show less" else "Show more")
+            IconButton(onClick = { expanded = !expanded }) {
+                /** androidx.compose.material:material-icons-extended:1.0.1 에서 지원되는 Icons.Filled.ExpandLess, Icons.Filled.ExpandMore */
+                Image(
+                    imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+                    contentDescription = if (expanded) stringResource(
+                        id = R.string.show_less
+                    ) else stringResource(id = R.string.show_more)
+                )
+
+                /**
+                 * 이미지 백터로 추가 적용
+                Image(
+                    painter = painterResource(id = if (expanded) R.drawable.ic_baseline_keyboard_arrow_up_24 else R.drawable.ic_baseline_keyboard_arrow_down_24),
+                    contentDescription = if (expanded) stringResource(
+                        id = R.string.show_less
+                    ) else stringResource(id = R.string.show_more)
+                )
+                */
             }
         }
     }
